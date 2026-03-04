@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.narei.loldle.data.ChampionRepository
 
-class SplashScreenViewModel(
+class SplashViewModel(
     private val championRepository: ChampionRepository
 ) : ViewModel() {
 

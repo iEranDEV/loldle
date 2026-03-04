@@ -10,7 +10,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SplashScreen(
-    viewModel: SplashScreenViewModel = koinViewModel(),
+    viewModel: SplashViewModel = koinViewModel(),
     navigateToHome: () -> Unit
 ) {
 

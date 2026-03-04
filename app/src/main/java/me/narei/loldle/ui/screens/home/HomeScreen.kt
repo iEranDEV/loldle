@@ -9,9 +9,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import me.narei.loldle.ui.screens.Screen
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navigate: (Screen) -> Unit
+) {
 
     Scaffold() { innerPadding ->
         Column(
@@ -39,7 +42,7 @@ fun HomeScreen() {
             }
 
             Button(
-                onClick = {}
+                onClick = { navigate(Screen.ChampionList) }
             ) {
                 Text("List of champions")
             }
