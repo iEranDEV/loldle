@@ -69,6 +69,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
+
     implementation(platform(libs.koin.bom))
 
     implementation(libs.koin.core)
