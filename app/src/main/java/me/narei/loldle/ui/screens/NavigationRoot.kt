@@ -6,7 +6,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import me.narei.loldle.ui.screens.championDetails.ChampionDetailsScreen
 import me.narei.loldle.ui.screens.championList.ChampionListScreen
+import me.narei.loldle.ui.screens.games.gameChampion.GameChampionScreen
 import me.narei.loldle.ui.screens.home.HomeScreen
 import me.narei.loldle.ui.screens.splash.SplashScreen
 
@@ -37,13 +39,25 @@ fun NavigationRoot() {
                 )
             }
 
+            entry<Screen.GameChampion> {
+                GameChampionScreen(
+                    backToHome = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
+                )
+            }
+
             entry<Screen.ChampionList> {
                 ChampionListScreen(
                     navigateToDetails = { championId ->
-                        // TODO: Navigate to champion details screen
+                        backstack.add(Screen.ChampionDetails(championId))
                     },
                     backToHome = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
                 )
+            }
+
+            entry<Screen.ChampionDetails>(
+                metadata = mapOf("extraDataKey" to "extraDataValue")
+            ) { key ->
+                ChampionDetailsScreen(id = key.championId)
             }
         }
     )

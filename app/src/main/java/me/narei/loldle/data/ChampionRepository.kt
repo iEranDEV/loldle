@@ -61,4 +61,8 @@ class ChampionRepository(private val context: Context) {
 
     fun getAllChampions(): List<Champion> = champions
 
+    fun getChampionById(id: String): Champion? {
+        return champions.find { it.id == id }
+    }
+
 }

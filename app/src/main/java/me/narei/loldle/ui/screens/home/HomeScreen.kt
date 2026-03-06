@@ -59,7 +59,7 @@ fun HomeScreen(
             ) {
 
                 AppButton(
-                    onClick = {},
+                    onClick = { navigate(Screen.GameChampion) },
                     title = "Guess Champion",
                     icon = Icons.Rounded.Person
                 )

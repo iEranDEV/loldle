@@ -1,6 +1,7 @@
 package me.narei.loldle.ui.components.championList
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,12 +21,14 @@ import me.narei.loldle.ui.theme.spacing
 @Composable
 fun ChampionListCard(
     modifier: Modifier = Modifier,
-    champion: Champion
+    champion: Champion,
+    onClick: () -> Unit
 ) {
 
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clickable { onClick() }
             .background(MaterialTheme.colorScheme.surface)
             .padding(MaterialTheme.spacing.small),
         verticalAlignment = Alignment.CenterVertically,
@@ -33,7 +36,7 @@ fun ChampionListCard(
     ) {
         AsyncImage(
             model = champion.iconUrl,
-            contentDescription = "Ikona ${champion.name}",
+            contentDescription = "Icon ${champion.name}",
             modifier = Modifier
                 .size(50.dp)
         )
