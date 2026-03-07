@@ -1,26 +1,31 @@
 package me.narei.loldle.ui.screens.games.gameChampion
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import me.narei.loldle.ui.components.games.gameChampion.ChampionGuessRow
 import me.narei.loldle.ui.components.shared.LazyDropdownMenu
 import me.narei.loldle.ui.components.shared.LazyDropdownMenuOption
 import me.narei.loldle.ui.theme.spacing
@@ -37,8 +42,8 @@ fun GameChampionScreen(
     val focusManager = LocalFocusManager.current
 
     val champions = viewModel.champions
-
-    var selectedChampionId by remember { mutableStateOf("") }
+    val guesses by viewModel.guesses.collectAsStateWithLifecycle()
+    val isGameWon by viewModel.isGameWon.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -62,31 +67,79 @@ fun GameChampionScreen(
     ) { innerPadding ->
         Column(
             modifier = modifier
-                .padding(innerPadding)
-                .padding(MaterialTheme.spacing.medium)
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
         ) {
-            Text("Guess Champion game")
 
-            LazyDropdownMenu(
-                options = champions.map { champion ->
-                    LazyDropdownMenuOption(
-                        key = champion.id,
-                        title = champion.name,
-                        icon = {
-                            AsyncImage(
-                                model = champion.iconUrl,
-                                contentDescription = "Icon ${champion.name}",
-                                modifier = Modifier
-                                    .size(50.dp)
-                            )
-                        }
-                    )
-                },
-                onOptionSelect = { key -> selectedChampionId = key }
-            )
+            Column(
+                modifier = Modifier.padding(MaterialTheme.spacing.medium)
+            ) {
+                Text(viewModel.championToGuess.name)
 
-            Text(selectedChampionId)
+                LazyDropdownMenu(
+                    options = champions.map { champion ->
+                        LazyDropdownMenuOption(
+                            key = champion.id,
+                            title = champion.name,
+                            icon = {
+                                AsyncImage(
+                                    model = champion.iconUrl,
+                                    contentDescription = "Icon ${champion.name}",
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                )
+                            }
+                        )
+                    },
+                    onOptionSelect = { championId -> viewModel.guessChampion(championId) }
+                )
+            }
+
+            LazyColumn() {
+                items(
+                    items = guesses.reversed(),
+                    key = { it.championId }
+                ) { guess ->
+                    ChampionGuessRow( guess = guess )
+                }
+            }
+
         }
+    }
+
+    if (isGameWon) {
+        AlertDialog(
+            onDismissRequest = {},
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            ),
+            title = {
+                Text(text = "Zwycięstwo!")
+            },
+            text = {
+                Text(text = "Udało Ci się odgadnąć postać (${viewModel.championToGuess.name}). Co chcesz teraz zrobić?")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.resetGame()
+                    }
+                ) {
+                    Text("AGAIN")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        focusManager.clearFocus()
+                        backToHome()
+                    }
+                ) {
+                    Text("POWRÓT")
+                }
+            }
+        )
     }
 
 }
