@@ -30,12 +30,9 @@ fun ChampionGuessRow(
     guess: GameChampionGuess
 ) {
 
-    val scrollState = rememberScrollState()
-
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .horizontalScroll(scrollState)
             .padding(horizontal = MaterialTheme.spacing.medium),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
     ) {

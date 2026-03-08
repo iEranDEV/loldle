@@ -49,12 +49,17 @@ data class LazyDropdownMenuOption (
     val icon: @Composable (() -> Unit)? = null
 )
 
+enum class DropdownDirection {
+    UP, DOWN
+}
+
 @Composable
 fun LazyDropdownMenu(
     modifier: Modifier = Modifier,
     options: List<LazyDropdownMenuOption>,
     onOptionSelect: (String) -> Unit,
-    textFieldLabel: String = "Select option"
+    textFieldLabel: String = "Select option",
+    direction: DropdownDirection = DropdownDirection.DOWN
 ) {
     var expanded by remember { mutableStateOf(false) }
     var inputText by remember { mutableStateOf("") }
@@ -128,8 +133,8 @@ fun LazyDropdownMenu(
             }
 
             Popup(
-                alignment = Alignment.TopStart,
-                offset = IntOffset(0, textFieldSize.height),
+                alignment = if (direction == DropdownDirection.DOWN) Alignment.TopStart else Alignment.BottomStart,
+                offset = if (direction == DropdownDirection.DOWN) IntOffset(0, textFieldSize.height) else IntOffset(0, -textFieldSize.height),
                 properties = PopupProperties(
                     focusable = false,
                     dismissOnClickOutside = false,
