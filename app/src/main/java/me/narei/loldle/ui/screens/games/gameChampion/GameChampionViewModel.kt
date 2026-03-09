@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import me.narei.loldle.data.ChampionRepository
 
 class GameChampionViewModel(
@@ -32,6 +31,7 @@ class GameChampionViewModel(
                 compareListField("species", champion.species, championToGuess.species),
                 compareStringField("resource", champion.resource, championToGuess.resource),
                 compareListField("regions", champion.regions, championToGuess.regions),
+                compareListField("attackType", champion.attackType, championToGuess.attackType),
                 compareYearField("releaseYear", champion.releaseYear, championToGuess.releaseYear)
             )
         )

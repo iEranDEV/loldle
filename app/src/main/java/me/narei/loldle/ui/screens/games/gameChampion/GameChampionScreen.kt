@@ -1,9 +1,12 @@
 package me.narei.loldle.ui.screens.games.gameChampion
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,8 +28,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -89,24 +95,40 @@ fun GameChampionScreen(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
         ) {
 
-            LazyColumn(
-                state = guessesListState,
+            Box(
                 modifier = Modifier
                     .weight(1f)
-                    .horizontalScroll(horizontalScrollState)
-                    .padding(vertical = MaterialTheme.spacing.medium),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    .fillMaxWidth()
             ) {
-                items(
-                    items = guesses.reversed(),
-                    key = { it.championId }
-                ) { guess ->
-                    ChampionGuessRow( guess = guess )
+                if (guesses.isEmpty()) {
+                    Text(
+                        text = "No guesses yet.\nSelect first champion below.\nGood luck!",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSecondary,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                } else {
+                    LazyColumn(
+                        state = guessesListState,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .horizontalScroll(horizontalScrollState)
+                            .padding(vertical = MaterialTheme.spacing.medium),
+                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    ) {
+                        items(
+                            items = guesses.reversed(),
+                            key = { it.championId }
+                        ) { guess ->
+                            ChampionGuessRow(guess = guess)
+                        }
+                    }
                 }
             }
 
             Column(
-                modifier = Modifier.padding(MaterialTheme.spacing.medium)
+                modifier = Modifier.background(Color.Red).padding(MaterialTheme.spacing.medium)
             ) {
                 Text(viewModel.championToGuess.name)
 
@@ -127,6 +149,7 @@ fun GameChampionScreen(
                                 }
                             )
                         },
+                    textFieldLabel = "Guess champion",
                     onOptionSelect = { championId -> viewModel.guessChampion(championId) },
                     direction = DropdownDirection.UP
                 )

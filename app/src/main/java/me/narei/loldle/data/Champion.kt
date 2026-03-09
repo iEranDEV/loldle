@@ -15,8 +15,8 @@ data class Champion(
     val skins: List<Skin>,
     val abilities: List<Ability>,
     val resource: String,
-    val attackType: List<AttackType>,
-    val positions: List<Position>
+    val attackType: List<String>,
+    val positions: List<String>
 )
 
 @Serializable
@@ -39,19 +39,4 @@ enum class AbilityType {
     W,
     E,
     R
-}
-
-@Serializable
-enum class AttackType {
-    MELEE,
-    RANGED
-}
-
-@Serializable
-enum class Position {
-    TOP,
-    JUNGLE,
-    MID,
-    BOTTOM,
-    SUPPORT
 }

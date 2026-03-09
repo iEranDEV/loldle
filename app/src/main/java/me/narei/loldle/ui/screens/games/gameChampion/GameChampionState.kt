@@ -1,6 +1,7 @@
 package me.narei.loldle.ui.screens.games.gameChampion
 
 import kotlinx.serialization.Serializable
+import kotlin.text.lowercase
 
 @Serializable
 data class GameChampionGuess (
@@ -26,11 +27,12 @@ data class GameChampionGuessField (
 )
 
 fun compareStringField(fieldName: String, guessed: String, target: String): GameChampionGuessField {
-    return GameChampionGuessField(fieldName, guessed, if (guessed == target) CorrectStatus.CORRECT else CorrectStatus.INCORRECT)
+    return GameChampionGuessField(fieldName, guessed.lowercase().replaceFirstChar { it.uppercase() }, if (guessed == target) CorrectStatus.CORRECT else CorrectStatus.INCORRECT)
 }
 
-fun compareListField(fieldName: String, guessed: List<Any>, target: List<Any>): GameChampionGuessField {
-    return GameChampionGuessField(fieldName, guessed.joinToString(", "), when {
+fun compareListField(fieldName: String, guessed: List<String>, target: List<String>): GameChampionGuessField {
+    return GameChampionGuessField(fieldName,
+        guessed.joinToString("\n") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }, when {
         guessed.containsAll(target) && target.containsAll(guessed) -> CorrectStatus.CORRECT
         guessed.intersect(target.toSet()).isNotEmpty() -> CorrectStatus.PARTIAL
         else -> CorrectStatus.INCORRECT
