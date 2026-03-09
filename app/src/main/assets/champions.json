@@ -1532,7 +1532,7 @@
                 "url": "https://ddragon.leagueoflegends.com/cdn/16.5.1/img/spell/BelvethR.png"
             }
         ],
-        "resource": "",
+        "resource": "None",
         "attackType": [
             "MELEE"
         ],
@@ -9150,7 +9150,7 @@
         "name": "Neeko",
         "title": "the Curious Chameleon",
         "iconUrl": "https://ddragon.leagueoflegends.com/cdn/16.5.1/img/champion/Neeko.png",
-        "gender": "MALE",
+        "gender": "FEMALE",
         "regions": [
             "Ixtal"
         ],
@@ -9614,7 +9614,9 @@
         "attackType": [
             "MELEE"
         ],
-        "positions": []
+        "positions": [
+          "JUNGLE"
+        ]
     },
     {
         "id": "Olaf",

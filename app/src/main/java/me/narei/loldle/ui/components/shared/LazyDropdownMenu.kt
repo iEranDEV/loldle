@@ -127,18 +127,22 @@ fun LazyDropdownMenu(
         if (expanded && filteredOptions.isNotEmpty()) {
             val density = LocalDensity.current
 
+            val popupAlignment = if (direction == DropdownDirection.DOWN) Alignment.TopStart else Alignment.BottomStart
+            val yOffset = if (direction == DropdownDirection.DOWN) textFieldSize.height else -textFieldSize.height
+
             BackHandler {
                 expanded = false
                 focusManager.clearFocus()
             }
 
             Popup(
-                alignment = if (direction == DropdownDirection.DOWN) Alignment.TopStart else Alignment.BottomStart,
-                offset = if (direction == DropdownDirection.DOWN) IntOffset(0, textFieldSize.height) else IntOffset(0, -textFieldSize.height),
+                alignment = popupAlignment,
+                offset = IntOffset(0, yOffset),
                 properties = PopupProperties(
                     focusable = false,
                     dismissOnClickOutside = false,
-                    dismissOnBackPress = true
+                    dismissOnBackPress = true,
+                    clippingEnabled = false
                 ),
                 onDismissRequest = {
                     expanded = false
