@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 sealed interface Screen : NavKey {
 
     @Serializable
-    data object Splash : Screen
+    data object Loading : Screen
 
     @Serializable
     data object Home : Screen

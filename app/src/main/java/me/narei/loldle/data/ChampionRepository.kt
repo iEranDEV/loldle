@@ -44,8 +44,6 @@ class ChampionRepository(private val context: Context) {
 
                 _loadingState.value = LoadingState.Loading(bytesCopied / totalBytes)
 
-                delay(10)
-
                 bytes = inputStream.read(buffer)
             }
 

@@ -1,4 +1,4 @@
-package me.narei.loldle.ui.screens.splash
+package me.narei.loldle.ui.screens.loading
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SplashScreen(
-    viewModel: SplashViewModel = koinViewModel(),
+    viewModel: LoadingViewModel = koinViewModel(),
     navigateToHome: () -> Unit
 ) {
 

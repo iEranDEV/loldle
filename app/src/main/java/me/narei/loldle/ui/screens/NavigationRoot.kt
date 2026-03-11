@@ -13,12 +13,12 @@ import me.narei.loldle.ui.screens.championDetails.ChampionDetailsScreen
 import me.narei.loldle.ui.screens.championList.ChampionListScreen
 import me.narei.loldle.ui.screens.games.gameChampion.GameChampionScreen
 import me.narei.loldle.ui.screens.home.HomeScreen
-import me.narei.loldle.ui.screens.splash.SplashScreen
+import me.narei.loldle.ui.screens.loading.SplashScreen
 
 @Composable
 fun NavigationRoot() {
 
-    val backstack = rememberNavBackStack(Screen.Splash)
+    val backstack = rememberNavBackStack(Screen.Loading)
 
     NavDisplay(
         backStack = backstack,
@@ -36,7 +36,7 @@ fun NavigationRoot() {
             rememberViewModelStoreNavEntryDecorator()
         ),
         entryProvider = entryProvider {
-            entry<Screen.Splash> {
+            entry<Screen.Loading> {
                 SplashScreen(
                     navigateToHome = {
                         backstack.clear()
