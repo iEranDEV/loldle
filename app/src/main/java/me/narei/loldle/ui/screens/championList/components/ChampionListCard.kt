@@ -1,4 +1,4 @@
-package me.narei.loldle.ui.components.championList
+package me.narei.loldle.ui.screens.championList.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

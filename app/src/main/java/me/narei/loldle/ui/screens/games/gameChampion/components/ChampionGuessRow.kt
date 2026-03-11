@@ -1,4 +1,4 @@
-package me.narei.loldle.ui.components.games.gameChampion
+package me.narei.loldle.ui.screens.games.gameChampion.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,8 +22,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import me.narei.loldle.ui.screens.games.gameChampion.CorrectStatus
 import me.narei.loldle.ui.screens.games.gameChampion.GameChampionGuess
+import me.narei.loldle.ui.screens.games.gameChampion.GuessStatus
 import me.narei.loldle.ui.theme.CustomColor
 import me.narei.loldle.ui.theme.spacing
 
@@ -52,20 +52,20 @@ fun ChampionGuessRow(
             Box(
                 modifier = Modifier
                     .background(when (field.status) {
-                        CorrectStatus.CORRECT -> CustomColor.Success
-                        CorrectStatus.PARTIAL -> CustomColor.Warning
+                        GuessStatus.CORRECT -> CustomColor.Success
+                        GuessStatus.PARTIAL -> CustomColor.Warning
                         else -> CustomColor.Error
                     })
                     .border(1.dp, when (field.status) {
-                        CorrectStatus.CORRECT -> CustomColor.SuccessOutline
-                        CorrectStatus.PARTIAL -> CustomColor.WarningOutline
+                        GuessStatus.CORRECT -> CustomColor.SuccessOutline
+                        GuessStatus.PARTIAL -> CustomColor.WarningOutline
                         else -> CustomColor.ErrorOutline
                     })
                     .size(70.dp)
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                if (field.status == CorrectStatus.HIGHER) {
+                if (field.status == GuessStatus.HIGHER) {
                     Icon(
                         imageVector = Icons.Rounded.ArrowUpward,
                         modifier = Modifier.fillMaxSize().scale(1.5f),
@@ -74,7 +74,7 @@ fun ChampionGuessRow(
                     )
                 }
 
-                if (field.status == CorrectStatus.LOWER) {
+                if (field.status == GuessStatus.LOWER) {
                     Icon(
                         imageVector = Icons.Rounded.ArrowDownward,
                         modifier = Modifier.fillMaxSize().scale(1.5f),

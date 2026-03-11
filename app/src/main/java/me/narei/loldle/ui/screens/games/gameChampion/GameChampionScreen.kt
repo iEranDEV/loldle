@@ -38,7 +38,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import me.narei.loldle.ui.components.games.gameChampion.ChampionGuessRow
+import me.narei.loldle.ui.screens.games.gameChampion.components.ChampionGuessRow
 import me.narei.loldle.ui.components.shared.AppButton
 import me.narei.loldle.ui.components.shared.DropdownDirection
 import me.narei.loldle.ui.components.shared.LazyDropdownMenu
@@ -57,15 +57,13 @@ fun GameChampionScreen(
 
     val focusManager = LocalFocusManager.current
 
-    val champions = viewModel.champions
-    val guesses by viewModel.guesses.collectAsStateWithLifecycle()
-    val isGameWon by viewModel.isGameWon.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val horizontalScrollState = rememberScrollState()
     val guessesListState = rememberLazyListState()
 
-    LaunchedEffect(guesses.size) {
-        if (guesses.isNotEmpty()) {
+    LaunchedEffect(state.guesses.size) {
+        if (state.guesses.isNotEmpty()) {
             guessesListState.animateScrollToItem(0)
         }
     }
@@ -102,7 +100,7 @@ fun GameChampionScreen(
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                if (guesses.isEmpty()) {
+                if (state.guesses.isEmpty()) {
                     Text(
                         text = "No guesses yet.\nSelect first champion below.\nGood luck!",
                         style = MaterialTheme.typography.bodySmall,
@@ -120,7 +118,7 @@ fun GameChampionScreen(
                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
                     ) {
                         items(
-                            items = guesses.reversed(),
+                            items = state.guesses.reversed(),
                             key = { it.championId }
                         ) { guess ->
                             ChampionGuessRow(guess = guess)
@@ -133,11 +131,10 @@ fun GameChampionScreen(
                 modifier = Modifier.padding(MaterialTheme.spacing.medium)
             ) {
 
-                Text(viewModel.championToGuess.name)
+                Text(state.championToGuess.name)
 
                 LazyDropdownMenu(
-                    options = champions
-                        .filter { !guesses.any { guess -> guess.championId == it.id } }
+                    options = state.availableChampions
                         .map { champion ->
                             LazyDropdownMenuOption(
                                 key = champion.id,
@@ -153,7 +150,7 @@ fun GameChampionScreen(
                             )
                         },
                     textFieldLabel = "Guess champion",
-                    onOptionSelect = { championId -> viewModel.guessChampion(championId) },
+                    onOptionSelect = { championId -> viewModel.onAction(GameChampionAction.GuessChampion(championId)) },
                     direction = DropdownDirection.UP
                 )
             }
@@ -161,7 +158,7 @@ fun GameChampionScreen(
         }
     }
 
-    if (isGameWon) {
+    if (state.isGameWon) {
         Dialog (
             onDismissRequest = {},
             properties = DialogProperties(
@@ -191,20 +188,20 @@ fun GameChampionScreen(
                         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
                     ) {
                         AsyncImage(
-                            model = viewModel.championToGuess.iconUrl,
-                            contentDescription = "Icon ${viewModel.championToGuess.name}",
+                            model = state.championToGuess.iconUrl,
+                            contentDescription = "Icon ${state.championToGuess.name}",
                             modifier = Modifier
                                 .size(70.dp)
                         )
 
                         Column {
                             Text(
-                                text = viewModel.championToGuess.name,
+                                text = state.championToGuess.name,
                                 style = MaterialTheme.typography.titleLarge
                             )
 
                             Text(
-                                text = viewModel.championToGuess.title,
+                                text = state.championToGuess.title,
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSecondary
                             )
@@ -212,7 +209,7 @@ fun GameChampionScreen(
                     }
 
                     Text(
-                        text = "You successfully guessed champion (${viewModel.championToGuess.name}). What do you want to do next?",
+                        text = "You successfully guessed champion (${state.championToGuess.name}). What do you want to do next?",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -234,7 +231,7 @@ fun GameChampionScreen(
                         )
 
                         AppButton(
-                            onClick = { viewModel.resetGame() },
+                            onClick = { viewModel.onAction(GameChampionAction.ResetGame) },
                             title = "Play Again",
                             icon = Icons.Rounded.Replay
                         )

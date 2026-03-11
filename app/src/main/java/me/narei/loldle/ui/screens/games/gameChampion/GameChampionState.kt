@@ -1,48 +1,15 @@
 package me.narei.loldle.ui.screens.games.gameChampion
 
-import kotlinx.serialization.Serializable
-import kotlin.text.lowercase
+import me.narei.loldle.data.Champion
 
-@Serializable
-data class GameChampionGuess (
-    val championId: String,
-    val iconUrl: String,
-    val fields: List<GameChampionGuessField>
+data class GameChampionState(
+    val championToGuess: Champion,
+    val guesses: List<GameChampionGuess>,
+    val isGameWon: Boolean,
+    val availableChampions: List<Champion>
 )
 
-@Serializable
-enum class CorrectStatus {
-    CORRECT,
-    PARTIAL,
-    INCORRECT,
-    HIGHER,
-    LOWER
-}
-
-@Serializable
-data class GameChampionGuessField (
-    val fieldName: String,
-    val fieldValue: String,
-    val status: CorrectStatus
-)
-
-fun compareStringField(fieldName: String, guessed: String, target: String): GameChampionGuessField {
-    return GameChampionGuessField(fieldName, guessed.lowercase().replaceFirstChar { it.uppercase() }, if (guessed == target) CorrectStatus.CORRECT else CorrectStatus.INCORRECT)
-}
-
-fun compareListField(fieldName: String, guessed: List<String>, target: List<String>): GameChampionGuessField {
-    return GameChampionGuessField(fieldName,
-        guessed.joinToString("\n") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }, when {
-        guessed.containsAll(target) && target.containsAll(guessed) -> CorrectStatus.CORRECT
-        guessed.intersect(target.toSet()).isNotEmpty() -> CorrectStatus.PARTIAL
-        else -> CorrectStatus.INCORRECT
-    })
-}
-
-fun compareYearField(fieldName: String, guessed: Int, target: Int): GameChampionGuessField {
-    return GameChampionGuessField(fieldName, guessed.toString(), when {
-        guessed == target -> CorrectStatus.CORRECT
-        guessed < target -> CorrectStatus.HIGHER
-        else -> CorrectStatus.LOWER
-    })
+sealed interface GameChampionAction {
+    data class GuessChampion(val championId: String) : GameChampionAction
+    data object ResetGame : GameChampionAction
 }
