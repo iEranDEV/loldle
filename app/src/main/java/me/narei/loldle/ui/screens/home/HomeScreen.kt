@@ -65,7 +65,7 @@ fun HomeScreen(
                 )
 
                 AppButton(
-                    onClick = {},
+                    onClick = { navigate(Screen.GameAbility) },
                     title = "Guess Ability",
                     icon = Icons.Rounded.Star
                 )

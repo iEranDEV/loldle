@@ -16,7 +16,7 @@ sealed interface Screen : NavKey {
     data object GameChampion : Screen
 
     @Serializable
-    data object GameSpell : Screen
+    data object GameAbility : Screen
 
     @Serializable
     data object GameSkin : Screen

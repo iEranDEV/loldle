@@ -23,7 +23,7 @@ import me.narei.loldle.ui.theme.spacing
 fun AppButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    icon: ImageVector,
+    icon: ImageVector? = null,
     title: String
 ) {
 
@@ -40,11 +40,14 @@ fun AppButton(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = "Guess Champion",
-                tint = MaterialTheme.colorScheme.primary
-            )
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Guess Champion",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
