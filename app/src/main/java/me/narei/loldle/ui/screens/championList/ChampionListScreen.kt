@@ -38,7 +38,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ChampionListScreen(
     viewModel: ChampionListViewModel = koinViewModel(),
     navigateToDetails: (String) -> Unit,
-    backToHome: () -> Unit
+    navigateBack: () -> Unit
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -85,7 +85,7 @@ fun ChampionListScreen(
                             if (state.isSearchActive) {
                                 viewModel.onAction(ChampionListAction.ToggleSearch)
                             } else {
-                                backToHome()
+                                navigateBack()
                             }
                         }
                     ) {

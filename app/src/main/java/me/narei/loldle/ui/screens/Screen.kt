@@ -25,6 +25,6 @@ sealed interface Screen : NavKey {
     data object ChampionList : Screen
 
     @Serializable
-    data class ChampionDetails(val championId: String) : Screen
+    data class ChampionDetail(val championId: String) : Screen
 
 }

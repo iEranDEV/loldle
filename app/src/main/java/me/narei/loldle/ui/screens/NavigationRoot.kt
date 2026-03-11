@@ -9,7 +9,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import me.narei.loldle.ui.screens.championDetails.ChampionDetailsScreen
+import me.narei.loldle.ui.screens.championDetail.ChampionDetailScreen
 import me.narei.loldle.ui.screens.championList.ChampionListScreen
 import me.narei.loldle.ui.screens.games.gameChampion.GameChampionScreen
 import me.narei.loldle.ui.screens.home.HomeScreen
@@ -53,23 +53,26 @@ fun NavigationRoot() {
 
             entry<Screen.GameChampion> {
                 GameChampionScreen(
-                    backToHome = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
+                    navigateBack = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
                 )
             }
 
             entry<Screen.ChampionList> {
                 ChampionListScreen(
                     navigateToDetails = { championId ->
-                        backstack.add(Screen.ChampionDetails(championId))
+                        backstack.add(Screen.ChampionDetail(championId))
                     },
-                    backToHome = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
+                    navigateBack = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
                 )
             }
 
-            entry<Screen.ChampionDetails>(
+            entry<Screen.ChampionDetail>(
                 metadata = mapOf("extraDataKey" to "extraDataValue")
             ) { key ->
-                ChampionDetailsScreen(id = key.championId)
+                ChampionDetailScreen(
+                    championId = key.championId,
+                    navigateBack = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
+                )
             }
         }
     )

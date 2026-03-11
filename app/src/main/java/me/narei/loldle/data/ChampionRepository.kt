@@ -2,7 +2,6 @@ package me.narei.loldle.data
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,7 +52,7 @@ class ChampionRepository(private val context: Context) {
             _loadingState.value = LoadingState.Success
 
         } catch (e: Exception) {
-            _loadingState.value = LoadingState.Error(e.localizedMessage ?: "Wystąpił błąd")
+            _loadingState.value = LoadingState.Error(e.localizedMessage ?: "An error occured")
         }
     }
 

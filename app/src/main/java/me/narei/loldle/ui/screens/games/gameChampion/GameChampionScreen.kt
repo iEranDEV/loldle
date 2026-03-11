@@ -52,7 +52,7 @@ import org.koin.androidx.compose.koinViewModel
 fun GameChampionScreen(
     modifier: Modifier = Modifier,
     viewModel: GameChampionViewModel = koinViewModel(),
-    backToHome: () -> Unit
+    navigateBack: () -> Unit
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -76,7 +76,7 @@ fun GameChampionScreen(
                     IconButton(
                         onClick = {
                             focusManager.clearFocus()
-                            backToHome()
+                            navigateBack()
                         }
                     ) {
                         Icon(
@@ -130,8 +130,6 @@ fun GameChampionScreen(
             Column(
                 modifier = Modifier.padding(MaterialTheme.spacing.medium)
             ) {
-
-                Text(state.championToGuess.name)
 
                 LazyDropdownMenu(
                     options = state.availableChampions
@@ -224,7 +222,7 @@ fun GameChampionScreen(
                         AppButton(
                             onClick = {
                                 focusManager.clearFocus()
-                                backToHome()
+                                navigateBack()
                             },
                             title = "Back to Menu",
                             icon = Icons.Rounded.Home

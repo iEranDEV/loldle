@@ -25,6 +25,11 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         letterSpacing = 0.5.sp,
     ),
+    titleMedium = TextStyle(
+        fontFamily = BeaufortFontFamily,
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold
+    ),
     bodySmall = TextStyle(
         fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
