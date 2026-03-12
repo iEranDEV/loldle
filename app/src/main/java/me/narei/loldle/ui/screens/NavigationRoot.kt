@@ -13,6 +13,7 @@ import me.narei.loldle.ui.screens.championDetail.ChampionDetailScreen
 import me.narei.loldle.ui.screens.championList.ChampionListScreen
 import me.narei.loldle.ui.screens.games.gameAbility.GameAbilityScreen
 import me.narei.loldle.ui.screens.games.gameChampion.GameChampionScreen
+import me.narei.loldle.ui.screens.games.gameSkin.GameSkinScreen
 import me.narei.loldle.ui.screens.home.HomeScreen
 import me.narei.loldle.ui.screens.loading.SplashScreen
 
@@ -60,6 +61,12 @@ fun NavigationRoot() {
 
             entry<Screen.GameAbility> {
                 GameAbilityScreen(
+                    navigateBack = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
+                )
+            }
+
+            entry<Screen.GameSkin> {
+                GameSkinScreen(
                     navigateBack = { if (backstack.size > 1) { backstack.removeAt(backstack.size - 1) } }
                 )
             }

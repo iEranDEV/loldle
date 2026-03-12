@@ -52,8 +52,7 @@ fun HomeScreen(
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -71,7 +70,7 @@ fun HomeScreen(
                 )
 
                 AppButton(
-                    onClick = {},
+                    onClick = { navigate(Screen.GameSkin) },
                     title = "Guess Skin",
                     icon = Icons.Rounded.Image
                 )
