@@ -97,8 +97,6 @@ fun GameSkinScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Text("${state.championToGuess.name} -> ${state.skinToGuess.name}")
-
                     Box(
                         modifier = Modifier
                             .size(width = windowWidth, height = windowHeight)
